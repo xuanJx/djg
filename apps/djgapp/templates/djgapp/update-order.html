@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block titleblock %}updata order{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div style="height: 100px"></div>
+                <div class="card shadow">
+                    <div class="card-header text-center bg-info">
+                        <h3 class="card-title">Updata Order</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'djgapp:update-order' order.id %}" method="post">{% csrf_token %}
+                            {{ o_form.as_p }}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-info">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

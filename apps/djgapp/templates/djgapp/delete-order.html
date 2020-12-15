@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block titleblock %}delete order{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div style="height: 100px"></div>
+                <div class="card shadow text-center">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h4>Ary you sure delete this order!</h4>
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <table class="table table-secondary table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ order.customer }}</td>
+                                    <td>{{ order.product }}</td>
+                                    <td>{{ order.time_created }}</td>
+                                    <td>{{ order.status }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <form action="{% url 'djgapp:delete-order' order.id %}" method="post">{% csrf_token %}
+                            <a href="{% url 'djgapp:home-page' %}" class="btn btn-warning">cancle</a>
+                            <button type="submit" class="btn btn-danger">confirm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

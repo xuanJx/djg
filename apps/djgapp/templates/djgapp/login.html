@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+    {% block content %}
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div style="height: 100px"></div>
+                    <div class="card">
+                        <div class="card-header bg-dark">
+                            <h3 style="color: #abdde5">Login</h3>
+                        </div>
+                        <div class="card-body" style="background-color: #28a745">
+                            {% if message %}
+                                <div class="alert alert-warning" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                            <form action="{% url 'djgapp:login-page' %}" method="post">
+                                {% csrf_token %}
+                                <label for="#user">Username:</label>
+                                <input type="text" id="user" class="form-control" name="username" placeholder="UserName" required>
+                                <label for="#password">Password:</label>
+                                <input type="password" id="pwd" class="form-control" name="password" placeholder="PassWord" required>
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-outline-primary text-center" style="background-color: #ba8b00">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+
+    {% endblock %}

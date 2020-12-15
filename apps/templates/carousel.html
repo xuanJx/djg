@@ -1,0 +1,69 @@
+{% load static %}
+<div id='demo' class="carousel slide" data-ride='carousel'>
+    <ul class="carousel-indicators">
+      <li data-target="#demo" data-slide-to='0' class="active"></li>
+      <li data-target="#demo" data-slide-to='1'></li>
+      <li data-target="#demo" data-slide-to='2'></li>
+    </ul>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'imgs/testA.jpg' %}" class="d-block w-100">
+        <div class="carousel-caption">
+        <h1 id="img1-h1">Lorem, ipsum dolor.</h1>
+        <p id='img1-p'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, accusamus? Laudantium soluta assumenda aperiam officiis.</p>
+        <a href="{% url 'djgapp:index-page' %}" class="btn btn-primary btn-lg" role="button">go to index-page</a>
+      </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'imgs/testb.jpg' %}" class="d-block w-100">
+        <div class="carousel-caption">
+          <h1 id='img2-h1'>Lorem ipsum dolor sit amet.</h1>
+          <p id='img2-p'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam modi dolores, dolor animi placeat corrupti repellat quis delectus!</p>
+          <button type="button" class="btn btn-primary btn-lg" data-toggle='modal' data-target='#myModal'>sign up today</button>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'imgs/testc.jpg' %}" class="d-block w-100">
+        <div class="carousel-caption">
+          <h1 id="img3-h1">Lorem, ipsum.</h1>
+          <p id="img3-p">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque similique facere perferendis voluptate hic repudiandae magnam aut odit accusantium perspiciatis, enim dignissimos animi nobis ullam?</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#demo" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#demo" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  <div class='modal fade' id='myModal'>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">sign up</h4>
+          <button type="button" class="close" data-dismiss='modal'>&times;</button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="email">Email address:</label>
+              <input type="email" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+              <label for="pwd">Password:</label>
+              <input type="password" class="form-control" id="pwd">
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox"> Remember me
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
