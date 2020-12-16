@@ -1,11 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block titleblock %}
+    <title>Home</title>
+{% endblock %}
 
 {% block content %}
     {% include 'carousel.html' %}
     <div class="container-fluid">
       <div class="row">
-          <div class="col-md-6"></div>
-          <div class="col-md-6"></div>
+          <div class="col-md-6">
+              <div class="card mr-5" style="width: 50em;">
+                  <img src="{% static 'imgs/testA.jpg' %}" alt="Card image cap">
+                  <div class="cad-body">
+                      <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium doloremque laboriosam natus pariatur quo, vel!</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="card" style="width: 50rem;">
+                  <img src="{% static 'imgs/testb.jpg' %}" alt="Card image cap">
+                  <div class="cad-body">
+                      <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur doloribus eveniet hic libero magnam modi perferendis quaerat quas repellat.</p>
+                  </div>
+              </div>
+          </div>
       </div>
+    </div>
+    <div class="container-fluid">
+        <div class="card" style="width: 100rem;">
+            <img class="card-img-top" src="{% static 'imgs/testc.jpg' %}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
     </div>
 {% endblock %}

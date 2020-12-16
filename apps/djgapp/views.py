@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 
 from .models import Customer, Product, Order, UserExtension
 from .forms import CustomerForm, OrderForm, RegisterForm
 
 # Create your views here.
 
+class Aboutpage(TemplateView):
+    template_name = 'djgapp/about.html'
 
 
 def register(request):
@@ -43,8 +47,8 @@ def register(request):
 
     return render(request, 'djgapp/register.html', context)
 
-def homepage(request):
-    return render(request, 'djgapp/home.html')
+# def homepage(request):
+#     return render(request, 'djgapp/home.html')
 
 def loginpage(request):
     message = ''
@@ -95,13 +99,36 @@ def indexpage(request):
         else:
             break
 
+    c_form = CustomerForm()
+
+    if request.method == 'POST':
+        c_form = CustomerForm(request.POST)
+        if c_form.is_valid():
+            name_get = c_form.cleaned_data['name']
+            phone_get = c_form.cleaned_data['phone']
+            email_get = c_form.cleaned_data['email']
+            custmoer = Customer.objects.create(name=name_get, phone=phone_get, email=email_get)
+            custmoer.save()
+            return redirect('djgapp:index-page')
+
     if request.is_ajax and request.POST.get('order_del'):
         del_order_id = request.POST.get('order_del')
+        data = dict()
         print(del_order_id)
-        del_order = Order.objects.get(id=del_order_id)
-        del_order.delete()
+        del_order_queryset = Order.objects.filter(id=del_order_id)
+        if del_order_queryset:
+            del_order = del_order_queryset.first()
+            del_order.delete()
+            data['code'] = 200
+            data['message'] = '删除成功'
+        else:
+            data['code'] = 404
+            data['message'] = '删除失败'
+
+        return JsonResponse(data)
 
     context = {
+        'c_form': c_form,
         'customer': customer,
         'c_count': c_count,
         'order': last_five,
@@ -131,6 +158,7 @@ def create_customer_page(request):
     }
 
     return render(request, 'djgapp/create-customer.html', context)
+
 
 def create_order_page(request):
     o_form = OrderForm()
@@ -171,6 +199,7 @@ def update_order(request, pk):
         'o_form': o_form
     }
     return render(request, 'djgapp/update-order.html', context)
+
 
 def delete_order(request, pk):
     order = Order.objects.get(id=pk)
