@@ -8,5 +8,15 @@
     {% include 'carousel.html' %}
     <div style="height: 20px;"></div>
     <h2>Hello! This is about us page!</h2>
+    <div class="container col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <form action="{% url 'djgapp:about-page' %}" method="post">
+                {% csrf_token %}
+                {{ r_form }}
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
 
 {% endblock %}

@@ -12,7 +12,35 @@ from .forms import CustomerForm, OrderForm, RegisterForm
 
 class Aboutpage(TemplateView):
     template_name = 'djgapp/about.html'
+    register_form = RegisterForm
 
+    def post(self, request, *args, **kwargs):
+        form = self.register_form(request.POST)
+        initial = dict()
+        if form.is_valid():
+            name_get = form.cleaned_data['username']
+            passwd1_get = form.cleaned_data['password1']
+            passwd2_get = form.cleaned_data['password2']
+            email_get = form.cleaned_data['email']
+            phone_get = form.cleaned_data['phone']
+
+            try:
+                if passwd1_get == passwd2_get:
+                    new_user = User.objects.create_user(username=name_get, password=passwd2_get, email=email_get)
+                    UserExtension.objects.create(user=new_user, phone=phone_get)
+                    message = 'registered successfully'
+                    initial['message'] = message
+                    return redirect('djgapp:login-page')
+                else:
+                    message = 'Entered passwords differ'
+                    initial['message'] = message
+            except:
+                message = 'User name or mail has been registered'
+                initial['message'] = message
+
+        initial['r_form'] = form
+
+        return render(request, self.template_name, initial)
 
 def register(request):
     r_form = RegisterForm()
@@ -114,7 +142,6 @@ def indexpage(request):
     if request.is_ajax and request.POST.get('order_del'):
         del_order_id = request.POST.get('order_del')
         data = dict()
-        print(del_order_id)
         del_order_queryset = Order.objects.filter(id=del_order_id)
         if del_order_queryset:
             del_order = del_order_queryset.first()
