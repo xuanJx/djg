@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
-from .models import Customer, Product, Order, UserExtension
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy.orm import sessionmaker
+
+from crawl.crawl_book import crawl_info, Crawl_wuxia, URL
+
+from .models import Customer, Product, Order, UserExtension, Books
 from .forms import CustomerForm, OrderForm, RegisterForm
 
 # Create your views here.

@@ -1,10 +1,19 @@
 import re
-import sqlalchemy
 
 import requests
+from requests import RequestException
 from bs4 import BeautifulSoup
 
 BOOK_RULE = r'./book/(.*).html"'
+
+BOOK_NAME_RULE = r'<h1>(.*)</h1>'
+
+AUTHOR_RULE = r'.html">(.*)</a></h2>'
+
+BRIEF_RULE = r'<p>(.*)\W{6}</p>'
+
+CHAPTER_RULE = r'html">(.*)</a></dd>'
+
 
 URL = 'http://www.wuxia.net.cn/book.html'
 
@@ -31,10 +40,6 @@ class Crawl:
                 return self.remove_none(list)
         return list
 
-    def remove_tags(self, tags, text):
-        return re.sub(tags, '', text)
-
-
 class Crawl_wuxia(Crawl):
     def get_url(self, soup):
         book_url = []
@@ -53,17 +58,32 @@ class Crawl_wuxia(Crawl):
 
         return new_url_list
 
-def crawl_info(url, tags, class_=None, text=False):
+def remove_tags(tags, text):
+    return re.sub(tags, '', text)
+
+def crawl_info(url, tags, class_=None, text=False, chapter=False):
     content = ''
     new_crawl = Crawl_wuxia(url)
+    book_info = []
+    brief = []
     if text:
         for i in new_crawl.get_soup().find_all(tags):
-            content += new_crawl.remove_tags('<p></p>', i.text) + '\r\n'
+            content += remove_tags('<p></p>', i) + '\r\n'
         return content
     else:
-        for i in new_crawl.get_soup().find_all(tags, class_=class_):
-            return i
+        if not chapter:
+            for i in new_crawl.get_soup().find_all(tags, class_=class_):
+                book_info.extend(re.findall(BOOK_NAME_RULE, str(i)))
+                book_info.extend(re.findall(AUTHOR_RULE, str(i)))
+            for i in new_crawl.get_soup().find_all(tags, class_='description'):
+                brief.extend(''.join(remove_tags("<h3></h3><p></p>", i.text)))
+            return (book_info, ''.join(brief))
+        else:
+            # for i in new_crawl.get_soup().find_all(tags, )
+            ...
+
+def crawl_chapter():
+    ...
 
 if __name__ == '__main__':
-    print(crawl_info(url='http://www.wuxia.net.cn/book/aojundao.html', text=False, tags='div', class_='book'))
-
+    print(Crawl_wuxia(url='http://www.wuxia.net.cn/book/bahaifengyun.html').get_soup())
