@@ -1,0 +1,31 @@
+{% extends 'book_base.html' %}
+
+{% block titleblock %}
+    <title>Books</title>>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" style="font-size: 15px;">Index</th>
+                <th scope="col" style="font-size: 15px;">Books Table</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in books.items %}
+                <tr>
+                    <td class="ti">{{ k }}</td>
+                    <td class="tn">
+                        {% for i in v %}
+                            <p>
+                                <a href={% url "djgapp:chapters-page" pk=i.id %}>{{ i.book_name }}</a>
+                                <a class="au">({{ i.author }})</a>
+                            </p>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

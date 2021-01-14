@@ -14,6 +14,8 @@ BRIEF_RULE = r'<p>(.*)\W{6}</p>'
 
 CHAPTER_NAME_RULE = r'<h1>(.*)</h1>'
 
+MARK_RULE = r'<a name="(.)"'
+
 
 
 
@@ -83,5 +85,7 @@ def crawl_info(url, tags=None, class_=None, chapter=False):
         return (chapter_name, content)
 
 if __name__ == '__main__':
-    url='http://www.wuxia.net.cn/book/bahaifengyun/1.html'
-    print(crawl_info(url=url, chapter=True)[1])
+    url='http://www.wuxia.net.cn/book.html'
+    caw = Crawl_wuxia(url)
+    for i in caw.get_soup().find_all('td', class_="ta"):
+        print(re.findall(MARK_RULE, str(i)))

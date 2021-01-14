@@ -1,3 +1,5 @@
+import re
+
 from sqlalchemy import create_engine, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Text
@@ -6,8 +8,11 @@ from sqlalchemy.orm import sessionmaker, relationship, backref
 
 from crawl.crawl_book import crawl_info, Crawl_wuxia, URL
 
+MARK_RULE = r'http://www.wuxia.net.cn/book/(.*).html'
+
 book_engine = create_engine('mysql+pymysql://root:@localhost/books')
 Base = declarative_base()
+
 
 class Books(Base):
     __tablename__ = 'djgapp_books'
@@ -15,17 +20,19 @@ class Books(Base):
     book_name = Column(Text)
     author = Column(Text)
     brief = Column(Text)
+    mark = Column(String(2))
 
-    def __init__(self, book_name, author, brief):
+    def __init__(self, book_name, author, brief, mark):
         self.book_name = book_name
         self.author = author
         self.brief = brief
+        self.mark = mark
 
     def __repr__(self):
-        return "<books('%s', '%s', '%s')>" % (self.book_name, self.author, self.brief)
+        return "<books('%s', '%s', '%s', '%s')>" % (self.book_name, self.author, self.brief, self.mark)
 
 class Chapter(Base):
-    __tablename__ = 'djgapp_chapters'
+    __tablename__ = 'djgapp_chapter'
     id = Column(Integer, primary_key=True)
     chapter_name = Column(Text)
     chapter_content = Column(LONGTEXT)
@@ -45,15 +52,16 @@ book_session = Book_session()
 
 
 def add_book(url, n):
+    mark = str(re.findall(MARK_RULE, url)[0])[0]
     info = crawl_info(url=url, tags='div', class_='book')
     name = info[0]
     brief = info[1]
     all_ed = []
 
     try:
-        ed_book = Books(book_name=name[0], author=name[1], brief=brief)
+        ed_book = Books(book_name=name[0], author=name[1], brief=brief, mark=mark)
     except IndexError:
-        ed_book = Books(book_name=1, author=1, brief=1)
+        ed_book = Books(book_name=1, author=1, brief=1, mark=1)
 
     all_ed.append(ed_book)
 

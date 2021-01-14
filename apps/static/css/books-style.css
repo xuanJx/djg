@@ -1,0 +1,33 @@
+.ti {
+    width: 50px;
+    border-top: 1px solid darkslategray;
+    background-color: gainsboro;
+    color: green;
+    font-size: 25px;
+    text-indent: 20px;
+    margin-right: 10px;
+}
+
+.tn {
+    padding: 10px 0 10px 20px;
+    border-top: 1px solid #CAE0BA;
+    border-left: 1px solid #CAE0BA;
+
+}
+.tn p {
+    display: inline !important;
+    margin: 6px;
+}
+
+td.tn p {
+    float: left;
+    width: 220px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+a.au {
+    font-size: 8px;
+}

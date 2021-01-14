@@ -5,17 +5,34 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Text
-from sqlalchemy.orm import sessionmaker
-
-from crawl.crawl_book import crawl_info, Crawl_wuxia, URL
-
-from .models import Customer, Product, Order, UserExtension, Books
+from .models import Customer, Product, Order, UserExtension, Books, Chapter
 from .forms import CustomerForm, OrderForm, RegisterForm
-
+from string import ascii_lowercase
 # Create your views here.
+
+def chapterspage(request, pk):
+    content = {}
+
+    book = Books.objects.get(id=pk)
+    chapter = Chapter.objects.filter(book_id=pk)
+    print(chapter)
+    content["book"] = book
+    content["chapter"] = chapter
+
+
+    return render(request, 'djgapp/chapters.html', content)
+
+def bookspage(request):
+    content = {
+        "books": {}
+    }
+
+    for s in ascii_lowercase:
+        queryset = Books.objects.filter(mark=s)
+        if queryset:
+            content["books"][s] = queryset
+
+    return render(request, 'djgapp/books.html', content)
 
 class Aboutpage(TemplateView):
     template_name = 'djgapp/about.html'

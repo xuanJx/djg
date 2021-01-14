@@ -1,0 +1,38 @@
+
+div.book h1 {
+    text-align: center;
+    color: orangered;
+}
+
+div.book h6 {
+    text-align: right;
+    color: indianred;
+}
+
+.br {
+    line-height: 22px;
+    margin-bottom: 10px;
+    padding: 0px 10px;
+    border: 1px solid #E5EFD6;
+    font-size: 12px;
+    color: mediumseagreen;
+}
+
+.br h3 {
+    position: relative;
+    display: inline;
+    top: -12px;
+    left: 10px;
+    padding: 5px 10px;
+    background: #FFFEEA;
+    border: 1px solid #efddbd;
+    font-size: 14px;
+}
+
+.br p {
+    font-size: 16px;
+}
+
+.dtc {
+    border-top: 1px solid #efddbd;
+}

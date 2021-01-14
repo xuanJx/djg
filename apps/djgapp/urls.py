@@ -6,6 +6,8 @@ app_name = 'djgapp'
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='djgapp/home.html')),
+    path('books/', views.bookspage, name='books-page'),
+    path('chapters/<int:pk>/', views.chapterspage, name='chapters-page'),
     path('index/', views.indexpage, name='index-page'),
     path('home/', TemplateView.as_view(template_name='djgapp/home.html'), name='home-page'),
     path('about/', views.Aboutpage.as_view(), name='about-page'),
